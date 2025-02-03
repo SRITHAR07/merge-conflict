@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block reportbox %}
+<style>
+    /* Container for the entire form */
+    .employee-report-container {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 60px;
+    }
+
+    .employee-report-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .employee-report-header h2 {
+        font-size: 1.8em;
+        color: #333;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    /* Form Section */
+    .employee-form-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+    }
+
+    .employee-form-group {
+        flex: 1;
+        min-width: 220px;
+        max-width: 300px;
+    }
+
+    label {
+        font-size: 1em;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    /* Styling the Select Inputs */
+    select {
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background-color: #fafafa;
+        transition: all 0.3s ease;
+    }
+
+    select:focus {
+        border-color: #007bff;
+        background-color: #fff;
+    }
+
+    /* Styling the Button */
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: auto;
+        margin-top: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Media Query for Responsiveness */
+    @media (max-width: 768px) {
+        .employee-form-section {
+            flex-direction: column;
+        }
+
+        .employee-form-group {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="employee-report-container">
+    <header class="employee-report-header">
+        <h2>Employee Report</h2>
+    </header>
+
+    <form method="GET" action="{% url 'generate_report' %}">
+        <div class="employee-form-section">
+            <div class="employee-form-group">
+                <label for="plantcode">Plant Code:</label>
+                <select id="plantcode" name="plantcode">
+                    <option value="">-- Select Plant Code --</option>
+                    {% for plant in plantcodes %}
+                        <option value="{{ plant }}" {% if plant == request.GET.plantcode %}selected{% endif %}>{{ plant }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="employee-form-group">
+                <label for="shiftcode">Shift Code:</label>
+                <select id="shiftcode" name="shiftcode">
+                    <option value="">-- Select Shift Code --</option>
+                    {% for shift in shiftcodes %}
+                        <option value="{{ shift }}" {% if shift == request.GET.shiftcode %}selected{% endif %}>{{ shift }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="employee-form-group">
+                <label for="Status">Status:</label>
+                <select id="Status" name="Status">
+                    <option value="">-- Select Status --</option>
+                    {% for Status in Statuses %}
+                        <option value="{{ Status }}" {% if Status == request.GET.Status %}selected{% endif %}>{{ Status }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <button type="submit">Generate Report</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,272 @@
+  /* Apply Google Font globally */
+  body {
+    margin: 0;
+    
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(to bottom, #1e3c72, #2a5298); /* Blue Gradient */
+}
+
+.sidebar {
+    width: 250px;
+    background: linear-gradient(to bottom, #5379ec, #0f5ca0); /* Classic Blue Gradient */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    font-family: 'Comfortaa', sans-serif;
+}
+
+.sidebar.collapsed {
+    width: 60px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    justify-content: space-between;
+    background: #5379ec;
+}
+
+.sidebar-title {
+    font-size: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: opacity 0.3s;
+}
+
+.sidebar.collapsed .sidebar-title {
+    opacity: 0;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    padding: 15px;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-menu a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-weight: 400;
+    transition: transform 0.2s ease;
+}
+
+.sidebar-menu a:hover {
+    transform: scale(1.05);
+}
+
+.sidebar-menu span {
+    margin-left: 10px;
+    transition: opacity 0.3s;
+}
+
+.sidebar-menu i {
+    margin-left: 6px;
+    transition: transform 0.2s ease;
+}
+
+.sidebar-menu i:hover {
+    transform: scale(1.2); /* Icon scale on hover */
+}
+
+.sidebar.collapsed .sidebar-menu span {
+    opacity: 0;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 15px;
+    text-align: center;
+    color: #ccc;
+    font-size: 14px;
+    font-weight: 300;
+    background: #0f5ca0;
+}
+
+.main-content {
+    margin-left: 250px;
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+    overflow-x: hidden;
+    background: #f4f7fc;
+    margin-bottom: 10px;
+}
+
+.main-header {
+    height: 50px; /* Adjust this value as needed */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 20px; /* Adjust padding to fit content */
+    background-color: #f8f9fa; /* Adjust color if needed */
+    border-bottom: 1px solid #ddd;
+}
+
+.main-header h1 {
+    font-size: 18px; /* Adjust font size for better fit */
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-actions input {
+    height: 30px; /* Adjust input height */
+    font-size: 14px;
+}
+
+.header-actions .btn {
+    height: 35px;
+    width: 35px;
+    padding: 5px;
+}
+
+
+
+/* _______________________________________________home.html______________________________________ */
+
+
+/* Material Symbols Outlined */
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.menu-close-icon {
+    font-size: 28px;
+    cursor: pointer;
+    color: #fff;
+}
+/* MOBILE STYLES */
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 0;
+        overflow: hidden;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        transition: width 0.3s ease-in-out;
+        z-index: 1000; /* Ensure sidebar is above other elements */
+    }
+
+    .sidebar.open {
+        width: 80px; /* Show sidebar when opened */
+    }
+
+    .main-content {
+        margin-left: 0; /* Prevent content shift on mobile */
+        width: 100%;
+    }
+
+    .menu-close-icon {
+        font-size: 30px;
+        cursor: pointer;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1100;
+    }
+
+    .sidebar-menu {
+        display: block; /* Ensure menu items are visible */
+    }
+
+
+
+    .main-content {
+        margin-left: 60px;
+        padding: 10px;
+    }
+
+    .main-header {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .main-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .header-actions input {
+        font-size: 12px;
+        padding: 4px;
+    }
+
+    
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 50px;
+    }
+
+    .main-content {
+        margin-left: 50px;
+        padding: 8px;
+    }
+
+    .main-header {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .main-header h1 {
+        font-size: 1rem;
+    }
+
+    .header-actions input {
+        font-size: 10px;
+        padding: 3px;
+    }
+
+    .stats-grid {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 3px;
+        padding: 5px;
+    }
+
+    .stat-card {
+        flex: 1 1 calc(25% - 5px);
+        padding: 6px;
+        font-size: 10px;
+    }
+
+    .stat-card h2 {
+        font-size: 10px;
+    }
+
+    .stat-card p {
+        font-size: 8px;
+    }
+}
+
+}
+/* _______________________________________________report box______________________________________ */

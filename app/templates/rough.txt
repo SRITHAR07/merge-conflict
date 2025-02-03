@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temp Table Grid View</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2 class="text-center">Temp Table Grid View</h2>
+
+    <form method="get" class="mb-4">
+        <div class="form-row">
+            <div class="col">
+                <label for="EmpID">Employee ID</label>
+                <select name="EmpID" id="EmpID" class="form-control">
+                    <option value="">-- Select Employee ID --</option>
+                    {% for empid in empid_choices %}
+                        <option value="{{ empid }}" {% if request.GET.EmpID == empid|stringformat:"s" %}selected{% endif %}>{{ empid }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div class="col">
+                <label for="Plantcode">Plant Code</label>
+                <select name="Plantcode" id="Plantcode" class="form-control">
+                    <option value="">-- Select Plant Code --</option>
+                    {% for plantcode in plantcode_choices %}
+                        <option value="{{ plantcode }}" {% if request.GET.Plantcode == plantcode %}selected{% endif %}>{{ plantcode }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div class="col">
+                <label for="Shiftcode">Shift Code</label>
+                <select name="Shiftcode" id="Shiftcode" class="form-control">
+                    <option value="">-- Select Shift Code --</option>
+                    {% for shiftcode in shiftcode_choices %}
+                        <option value="{{ shiftcode }}" {% if request.GET.Shiftcode == shiftcode %}selected{% endif %}>{{ shiftcode }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <label for="Status">Status</label>
+                <select name="Status" id="Status" class="form-control">
+                    <option value="">-- Select Status --</option>
+                    {% for status in status_choices %}
+                        <option value="{{ status }}" {% if request.GET.Status == status %}selected{% endif %}>{{ status }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div class="col mt-4">
+                <button type="submit" class="btn btn-primary mt-2">Filter</button>
+            </div>
+        </div>
+    </form>
+    
+
+    <!-- Data Table -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>EmpID</th>
+                <th>Biorefno</th>
+                <th>Plantcode</th>
+                <th>Attndt</th>
+                <th>Shiftcode</th>
+                <th>Earlystart</th>
+                <th>Shiftstart</th>
+                <th>Chkin</th>
+                <th>Attn</th>
+                <th>La</th>
+                <th>Lastout</th>
+                <th>Logcount</th>
+                <th>Status</th>
+                <th>Shiftend</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in data %}
+            <tr>
+                <td>{{ record.EmpID }}</td>
+                <td>{{ record.Biorefno }}</td>
+                <td>{{ record.Plantcode }}</td>
+                <td>{{ record.Attndt }}</td>
+                <td>{{ record.Shiftcode }}</td>
+                <td>{{ record.Earlystart }}</td>
+                <td>{{ record.Shiftstart }}</td>
+                <td>{{ record.Chkin }}</td>
+                <td>{{ record.Attn }}</td>
+                <td>{{ record.La }}</td>
+                <td>{{ record.Lastout }}</td>
+                <td>{{ record.Logcount }}</td>
+                <td>{{ record.Status }}</td>
+                <td>{{ record.Shiftend }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+________________________________________________________________________________________________________
+_________________________________________________________________________________________________________
+def show_temp_table(request):
+    # Get distinct values for dropdowns
+    empid_choices = temp_table.objects.values_list('EmpID', flat=True).distinct()
+    plantcode_choices = temp_table.objects.values_list('Plantcode', flat=True).distinct()
+    shiftcode_choices = temp_table.objects.values_list('Shiftcode', flat=True).distinct()
+    status_choices = temp_table.objects.values_list('Status', flat=True).distinct()
+
+    # Start with all data
+    data = temp_table.objects.all()
+
+    # Handle filter by dropdown selection
+    empid_filter = request.GET.get('EmpID')
+    plantcode_filter = request.GET.get('Plantcode')
+    shiftcode_filter = request.GET.get('Shiftcode')
+    status_filter = request.GET.get('Status')
+
+    if empid_filter:
+        data = data.filter(EmpID=empid_filter)
+    if plantcode_filter:
+        data = data.filter(Plantcode=plantcode_filter)
+    if shiftcode_filter:
+        data = data.filter(Shiftcode=shiftcode_filter)
+    if status_filter:
+        data = data.filter(Status=status_filter)
+
+    return render(request, 'home.html', {
+        'data': data,
+        'empid_choices': empid_choices,
+        'plantcode_choices': plantcode_choices,
+        'shiftcode_choices': shiftcode_choices,
+        'status_choices':status_choices
+    })
